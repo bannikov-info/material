@@ -1,0 +1,135 @@
+/** Styles for mdTimepicker. */
+$md-timepicker-cell-size: 44px !default;
+
+@mixin md-timepicker-cell(){
+  height: $md-timepicker-cell-size;
+  width: $md-timepicker-cell-size;
+
+  text-align: center;
+
+  padding: 0;
+  border: none;
+
+  box-sizing: content-box;
+
+  line-height: $md-timepicker-cell-size;
+}
+
+
+
+.timepicker-pane{
+  width: 340px;
+  height: 340px;
+  padding: $md-timepicker-cell-size/2;
+  box-sizing: border-box;
+
+  font-size: 13px;
+  user-select: none;
+}
+.dial{
+  width: 308px;
+  height: 308px;
+  border-radius: 50%;
+  background:lightgray;
+  position: relative;
+  padding: $md-timepicker-cell-size+8px;
+  box-sizing: border-box;
+}
+
+.dial-digit-container{
+  @include md-timepicker-cell();
+
+  position: absolute;
+  left: 50%;
+  width: 0;
+}
+
+.dial .dial-digit-container:nth-of-type(-n+12){
+  bottom: 50%;
+  transform-origin: $md-timepicker-cell-size/2 100%;
+  padding-bottom: 50%;
+
+/*   border:1px dashed blue; */
+  margin-left: -$md-timepicker-cell-size/2;
+}
+
+@for $i from 1 through 12 {
+  .dial .dial-digit-container:nth-of-type(#{$i}){
+    transform: rotate(($i - 1) * 30deg);
+  }
+}
+
+.dial-digit{
+  @include md-timepicker-cell();
+
+  // border:1px dashed red;
+  position: absolute;
+  border-radius: 50%;
+
+  md-timepicker:not(.md-disabled) & {
+    cursor: pointer;
+  }
+
+  md-timepicker.md-disabled & {
+    cursor: default;
+  }
+
+}
+
+@for $i from 1 through 12 {
+  .dial .dial-digit-container:nth-of-type(#{$i}) .dial-digit{
+    transform: rotate(($i - 1) * (-30deg));
+  }
+}
+
+.dial-hour-hand-container{
+/*   padding-top */
+  position: absolute;
+  left: 50%;
+  width: 0;
+  bottom: 50%;
+  transform-origin: $md-timepicker-cell-size/2 100%;
+/*   padding-bottom: 50%; */
+  width: $md-timepicker-cell-size;
+  height: 50%;
+  margin-left: -$md-timepicker-cell-size/2;
+  //  border:1px dashed red;
+/*   background: lightyellow; */
+  padding-top: 8px;
+  box-sizing: border-box;
+
+  transition: all .5s ease-out;
+}
+
+.dial-hour-hand-container::before{
+  @include md-timepicker-cell();
+
+  display: block;
+  content: '';
+/*   height: 100%; */
+  background: green;
+  border-radius: 50%;
+}
+
+.dial-hour-hand-container::after{
+  position: relative;
+  display: block;
+  content: '';
+  width: 2px;
+  height: 100%;
+  margin-top: -$md-timepicker-cell-size;
+  left: $md-timepicker-cell-size/2 - 1px;
+  background: green;
+}
+
+@for $i from 1 through 12 {
+  .dial[data-selected="#{$i}"] .dial-hour-hand-container{
+    transform: rotate(($i - 1) * 30deg);
+  }
+}
+
+@for $i from 1 through 12 {
+    .dial[data-selected="#{$i}"] .dial-digit-container:nth-of-type(#{$i}) .dial-digit{
+      color: white;
+    }
+}
